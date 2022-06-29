@@ -1,7 +1,7 @@
 module Counter exposing (..)
 
 import Browser
-import Html exposing (Html, button, div, text)
+import Html exposing (Html, br, button, div, text)
 import Html.Events exposing (onClick)
 
 main =
@@ -12,7 +12,7 @@ type alias Model = Int
 init : Model
 init = 0
 
-type Msg = Increment | Decrement
+type Msg = Increment | Decrement | Reset
 
 update : Msg -> Model -> Model
 update msg model =
@@ -23,10 +23,14 @@ update msg model =
     Decrement ->
       model - 1
 
+    Reset -> 0
+
 view : Model -> Html Msg
 view model =
   div []
     [ button [ onClick Decrement ] [ text "-" ]
     , div [] [ text "Counter value right now is = ", text (String.fromInt model) ]
     , button [ onClick Increment ] [ text "+" ]
+    , br [] []
+    , button [ onClick Reset ] [ text "Reset Counter" ]
     ]
