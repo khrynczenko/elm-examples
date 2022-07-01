@@ -61,6 +61,14 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
   div []
-    [ h1 [] [ text (String.fromInt model.dieFace) ]
+    [ h1 [] [  text (case model.dieFace of
+      1 -> String.fromChar ( Char.fromCode 0x2680)
+      2 -> String.fromChar ( Char.fromCode 0x2681)
+      3 -> String.fromChar ( Char.fromCode 0x2682)
+      4 -> String.fromChar ( Char.fromCode 0x2683)
+      5 -> String.fromChar ( Char.fromCode 0x2684)
+      6 -> String.fromChar ( Char.fromCode 0x2685)
+      _ -> "Impossible"
+        ) ]
     , button [ onClick Roll ] [ text "Roll" ]
     ]
