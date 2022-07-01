@@ -68,38 +68,22 @@ isPasswordLengthValid str =
 
 
 type PasswordValidationError
-    = TooShort
-    | NoUpperCase
-    | NoLowerCase
-    | NoNumeric
-
-
-passwordValidationErrorToString : PasswordValidationError -> String
-passwordValidationErrorToString err =
-    case err of
-        TooShort ->
-            "Password must exceed " ++ String.fromInt minimumPasswordLength ++ "characters!"
-
-        NoUpperCase ->
-            "Password must contain at least on uppercase character!"
-
-        NoLowerCase ->
-            "Password must contain at least on lowercase character!"
-
-        NoNumeric ->
-            "Password must contain at least on digit!"
+    = TooShort String
+    | NoUpperCase String
+    | NoLowerCase String
+    | NoNumeric String
 
 
 isPasswordValid : String -> Result PasswordValidationError ()
 isPasswordValid str =
     if String.length str <= minimumPasswordLength then
-        Err TooShort
+        Err TooShort "Password must exceed " ++ String.fromInt minimumPasswordLength ++ "characters!"
 
     else if not <| List.any Char.isLower (String.toList str) then
-        Err NoLowerCase
+        Err NoLowerCase "Password must contain at least on uppercase character!"
 
     else if not <| List.any Char.isUpper (String.toList str) then
-        Err NoUpperCase
+        Err NoUpperCase "Password must contain at least on lowercase character!"
 
     else
         Ok ()
@@ -122,10 +106,9 @@ viewValidation model =
             Ok () ->
                 div [] []
 
-            Err e ->
+            Err (e s) ->
                 div [ style "color" "red" ]
-                    [ text <|
-                        passwordValidationErrorToString e
+                    [ text s
                     ]
 
     else
