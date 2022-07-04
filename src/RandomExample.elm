@@ -11,12 +11,12 @@ import Random
 
 
 main =
-  Browser.element
-    { init = init
-    , update = update
-    , subscriptions = subscriptions
-    , view = view
-    }
+    Browser.element
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        , view = view
+        }
 
 
 
@@ -24,51 +24,68 @@ main =
 
 
 type alias Model =
-  { dieFace : Int
-  }
+    { dieFace : Int
+    }
 
 
-init : () -> (Model, Cmd Msg)
+init : () -> ( Model, Cmd Msg )
 init _ =
-  ( { dieFace = 1 }
-  , Cmd.none
-  )
+    ( { dieFace = 1 }
+    , Cmd.none
+    )
+
 
 type Msg
-  = Roll
-  | NewFace Int
+    = Roll
+    | NewFace Int
 
 
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  case msg of
-    Roll ->
-      ( model
-      , Random.generate NewFace (Random.int 1 6)
-      )
+    case msg of
+        Roll ->
+            ( model
+            , Random.generate NewFace (Random.int 1 6)
+            )
 
-    NewFace newFace ->
-      ( Model newFace
-      , Cmd.none
-      )
-
+        NewFace newFace ->
+            ( Model newFace
+            , Cmd.none
+            )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-  Sub.none
+    Sub.none
+
 
 view : Model -> Html Msg
 view model =
-  div []
-    [ h1 [] [  text (case model.dieFace of
-      1 -> String.fromChar ( Char.fromCode 0x2680)
-      2 -> String.fromChar ( Char.fromCode 0x2681)
-      3 -> String.fromChar ( Char.fromCode 0x2682)
-      4 -> String.fromChar ( Char.fromCode 0x2683)
-      5 -> String.fromChar ( Char.fromCode 0x2684)
-      6 -> String.fromChar ( Char.fromCode 0x2685)
-      _ -> "Impossible"
-        ) ]
-    , button [ onClick Roll ] [ text "Roll" ]
-    ]
+    div []
+        [ h1 []
+            [ text
+                (case model.dieFace of
+                    1 ->
+                        String.fromChar (Char.fromCode 0x2680)
+
+                    2 ->
+                        String.fromChar (Char.fromCode 0x2681)
+
+                    3 ->
+                        String.fromChar (Char.fromCode 0x2682)
+
+                    4 ->
+                        String.fromChar (Char.fromCode 0x2683)
+
+                    5 ->
+                        String.fromChar (Char.fromCode 0x2684)
+
+                    6 ->
+                        String.fromChar (Char.fromCode 0x2685)
+
+                    _ ->
+                        "Impossible"
+                )
+            ]
+        , button [ onClick Roll ] [ text "Roll" ]
+        ]
